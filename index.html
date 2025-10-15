@@ -1,0 +1,1016 @@
+<div id="viral-content-generator">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3a0ca3;
+      --accent-color: #f72585;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --light-text: #6c757d;
+      --border-radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.5rem;
+      }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1s ease;
+      padding: 0 0.5rem;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      color: var(--light-text);
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .input-section, .output-section {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @media (max-width: 480px) {
+      .input-section, .output-section {
+        padding: 1rem;
+      }
+    }
+
+    .module-selector {
+      margin-bottom: 1.25rem;
+    }
+
+    .module-selector label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--secondary-color);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    /* Improved Module Selector Styling */
+    .module-select-container {
+      position: relative;
+    }
+
+    .module-select {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      background-color: white;
+      cursor: pointer;
+      transition: var(--transition);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 16px;
+    }
+
+    .module-select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    }
+
+    .module-select option {
+      padding: 0.5rem;
+    }
+
+    .module-select optgroup {
+      font-weight: 600;
+      color: var(--secondary-color);
+      padding: 0.5rem 0;
+    }
+
+    .module-select optgroup option {
+      padding-left: 1.5rem;
+      font-weight: normal;
+      color: var(--text-color);
+    }
+
+    .module-preview {
+      margin-top: 1rem;
+      padding: 0.9rem;
+      background: #f8f9fa;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .module-preview h4 {
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    .module-preview p {
+      color: var(--light-text);
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .module-preview .phase-tag {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    .input-group input, .input-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      transition: var(--transition);
+    }
+
+    .input-group input:focus, .input-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    }
+
+    .input-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .generate-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .generate-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .generate-btn:active {
+      transform: translateY(0);
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+
+    .output-section {
+      position: relative;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .output-header h3 {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+    }
+
+    .copy-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: #d9046d;
+    }
+
+    .output-content {
+      background: #f8f9fa;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      flex-grow: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border: 1px solid #e9ecef;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      min-height: 250px;
+    }
+
+    .empty-output {
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .phase-indicator {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Quick Access Modules */
+    .quick-modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .quick-modules {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+      }
+    }
+
+    .quick-module-btn {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.7rem 0.5rem;
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .quick-module-btn:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .quick-module-btn.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.2rem 0 0.8rem 0;
+      color: var(--secondary-color);
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    .success-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4bb543;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      animation: fadeIn 0.5s ease, fadeOut 0.5s ease 2s forwards;
+      max-width: 300px;
+      word-wrap: break-word;
+    }
+
+    @media (max-width: 480px) {
+      .success-message {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+      }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    .module-description {
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      color: var(--light-text);
+      margin-top: 0.3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Mobile-specific improvements */
+    .mobile-optimized {
+      /* Additional mobile-specific styles */
+    }
+
+    /* Prevent zoom on input focus for iOS */
+    @media (max-width: 480px) {
+      input, textarea, select {
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+    }
+
+    /* Better touch targets for mobile */
+    @media (max-width: 768px) {
+      .generate-btn, .copy-btn, .quick-module-btn {
+        min-height: 44px; /* Minimum touch target size */
+      }
+      
+      .input-group input, .input-group textarea, .module-select {
+        min-height: 44px;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <header>
+      <h1>Complete Product Sales System</h1>
+      <p class="subtitle">Social Media Viral Content Prompt Generator</p>
+    </header>
+
+    <div class="main-content">
+      <div class="input-section">
+        <div class="module-selector">
+          <label for="module">Select Prompt Module:</label>
+          <div class="module-select-container">
+            <select id="module" class="module-select">
+              <option value="">-- Choose a Module --</option>
+              <optgroup label="🎯 Phase 1 - Content Discovery">
+                <option value="1">1. Audience & Niche Discovery</option>
+                <option value="2">2. Competitor Inspiration</option>
+                <option value="3">3. Content Goal Clarification</option>
+              </optgroup>
+              <optgroup label="💡 Phase 2 - Content Ideation">
+                <option value="4">4. Viral Hook Prompts</option>
+                <option value="5">5. Storytelling Content Prompts</option>
+                <option value="6">6. Trend Integration</option>
+              </optgroup>
+              <optgroup label="🚀 Phase 3 - Content Creation">
+                <option value="7">7. Caption/Script Generation</option>
+                <option value="8">8. Short Video Script Prompt</option>
+                <option value="9">9. Carousel/Thread Post Prompt</option>
+                <option value="10">10. Meme or Relatable Post Prompt</option>
+              </optgroup>
+              <optgroup label="📈 Phase 4 - Platform Optimization">
+                <option value="11">11. Platform Formatting</option>
+                <option value="12">12. Hashtag & Timing Optimization</option>
+              </optgroup>
+              <optgroup label="💬 Phase 5 - Engagement & Viral Boost">
+                <option value="13">13. Comment Bait Prompt</option>
+                <option value="14">14. Remix/Repurpose Prompt</option>
+              </optgroup>
+              <optgroup label="📊 Phase 6 - Analytics & Improvement">
+                <option value="15">15. Post Performance Review</option>
+                <option value="16">16. Viral Pattern Analysis</option>
+              </optgroup>
+              <optgroup label="🗓️ Phase 7 - Content System">
+                <option value="17">17. 30-Day Content Calendar</option>
+                <option value="18">18. Evergreen Content Bank</option>
+                <option value="19">19. Authority-Building Prompts</option>
+              </optgroup>
+              <optgroup label="✨ Bonus - Viral Polish">
+                <option value="20">20. Final Optimization Prompt</option>
+              </optgroup>
+            </select>
+          </div>
+          
+          <div id="module-preview" class="module-preview" style="display: none;">
+            <h4 id="preview-title"></h4>
+            <p id="preview-description"></p>
+            <div class="phase-tag" id="preview-phase"></div>
+          </div>
+          
+          <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            Quick Access Modules
+          </div>
+          
+          <div class="quick-modules">
+            <button class="quick-module-btn" data-module="1">Audience Discovery</button>
+            <button class="quick-module-btn" data-module="4">Viral Hooks</button>
+            <button class="quick-module-btn" data-module="7">Caption Writing</button>
+            <button class="quick-module-btn" data-module="8">Video Scripts</button>
+            <button class="quick-module-btn" data-module="12">Hashtags & Timing</button>
+            <button class="quick-module-btn" data-module="17">Content Calendar</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="niche">Niche:</label>
+          <input type="text" id="niche" placeholder="e.g., fitness, personal finance, cooking">
+        </div>
+
+        <div class="input-group">
+          <label for="platform">Platform:</label>
+          <input type="text" id="platform" placeholder="e.g., TikTok, Instagram, LinkedIn">
+        </div>
+
+        <div class="input-group">
+          <label for="goal">Goal:</label>
+          <input type="text" id="goal" placeholder="e.g., increase followers, drive sales">
+        </div>
+
+        <div class="input-group">
+          <label for="topic">Topic:</label>
+          <input type="text" id="topic" placeholder="e.g., morning routine, budget tips">
+        </div>
+
+        <div class="input-group" id="data-input-group" style="display: none;">
+          <label for="data">Paste Data/Content:</label>
+          <textarea id="data" placeholder="Paste your content or data here"></textarea>
+        </div>
+
+        <button id="generate-btn" class="generate-btn">
+          <span>Generate Prompt</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+      </div>
+
+      <div class="output-section">
+        <div class="output-header">
+          <h3>Generated Prompt</h3>
+          <button id="copy-btn" class="copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+          </button>
+        </div>
+        <div class="output-content" id="output-content">
+          <div class="empty-output">Your generated prompt will appear here</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const moduleSelect = document.getElementById('module');
+      const nicheInput = document.getElementById('niche');
+      const platformInput = document.getElementById('platform');
+      const goalInput = document.getElementById('goal');
+      const topicInput = document.getElementById('topic');
+      const dataInput = document.getElementById('data');
+      const dataInputGroup = document.getElementById('data-input-group');
+      const generateBtn = document.getElementById('generate-btn');
+      const spinner = document.getElementById('spinner');
+      const outputContent = document.getElementById('output-content');
+      const copyBtn = document.getElementById('copy-btn');
+      const modulePreview = document.getElementById('module-preview');
+      const previewTitle = document.getElementById('preview-title');
+      const previewDescription = document.getElementById('preview-description');
+      const previewPhase = document.getElementById('preview-phase');
+      const quickModuleBtns = document.querySelectorAll('.quick-module-btn');
+
+      // Module details
+      const moduleDetails = {
+        '1': {
+          title: 'Audience & Niche Discovery',
+          description: 'Identify your audience, niche, tone, and content goals.',
+          phase: 'Phase 1 - Content Discovery'
+        },
+        '2': {
+          title: 'Competitor Inspiration',
+          description: 'Analyze top viral creators in your niche.',
+          phase: 'Phase 1 - Content Discovery'
+        },
+        '3': {
+          title: 'Content Goal Clarification',
+          description: 'Define content directions to achieve your goals.',
+          phase: 'Phase 1 - Content Discovery'
+        },
+        '4': {
+          title: 'Viral Hook Prompts',
+          description: 'Generate attention-grabbing hooks for your content.',
+          phase: 'Phase 2 - Content Ideation'
+        },
+        '5': {
+          title: 'Storytelling Content Prompts',
+          description: 'Create story-based post ideas with transformation moments.',
+          phase: 'Phase 2 - Content Ideation'
+        },
+        '6': {
+          title: 'Trend Integration',
+          description: 'Align your content with current platform trends.',
+          phase: 'Phase 2 - Content Ideation'
+        },
+        '7': {
+          title: 'Caption/Script Generation',
+          description: 'Write viral captions with hooks, stories, and CTAs.',
+          phase: 'Phase 3 - Content Creation'
+        },
+        '8': {
+          title: 'Short Video Script Prompt',
+          description: 'Create 30-second video scripts for short-form content.',
+          phase: 'Phase 3 - Content Creation'
+        },
+        '9': {
+          title: 'Carousel/Thread Post Prompt',
+          description: 'Design carousel or thread posts with strong headlines.',
+          phase: 'Phase 3 - Content Creation'
+        },
+        '10': {
+          title: 'Meme or Relatable Post Prompt',
+          description: 'Generate meme or relatable post ideas with humor.',
+          phase: 'Phase 3 - Content Creation'
+        },
+        '11': {
+          title: 'Platform Formatting',
+          description: 'Optimize your content for specific platforms.',
+          phase: 'Phase 4 - Platform Optimization'
+        },
+        '12': {
+          title: 'Hashtag & Timing Optimization',
+          description: 'Suggest hashtags, posting times, and CTAs.',
+          phase: 'Phase 4 - Platform Optimization'
+        },
+        '13': {
+          title: 'Comment Bait Prompt',
+          description: 'Create questions to increase discussion and engagement.',
+          phase: 'Phase 5 - Engagement & Viral Boost'
+        },
+        '14': {
+          title: 'Remix/Repurpose Prompt',
+          description: 'Repurpose content across different platforms.',
+          phase: 'Phase 5 - Engagement & Viral Boost'
+        },
+        '15': {
+          title: 'Post Performance Review',
+          description: 'Analyze post performance to improve future content.',
+          phase: 'Phase 6 - Analytics & Improvement'
+        },
+        '16': {
+          title: 'Viral Pattern Analysis',
+          description: 'Identify patterns in your best-performing posts.',
+          phase: 'Phase 6 - Analytics & Improvement'
+        },
+        '17': {
+          title: '30-Day Content Calendar',
+          description: 'Plan a month of content with topics and hooks.',
+          phase: 'Phase 7 - Content System'
+        },
+        '18': {
+          title: 'Evergreen Content Bank',
+          description: 'Create evergreen content ideas that stay relevant.',
+          phase: 'Phase 7 - Content System'
+        },
+        '19': {
+          title: 'Authority-Building Prompts',
+          description: 'Build authority with expert-focused content.',
+          phase: 'Phase 7 - Content System'
+        },
+        '20': {
+          title: 'Final Optimization Prompt',
+          description: 'Optimize existing content for maximum impact.',
+          phase: 'Bonus - Viral Polish'
+        }
+      };
+
+      // Show/hide data input based on module selection
+      moduleSelect.addEventListener('change', function() {
+        const selectedModule = this.value;
+        updateModulePreview(selectedModule);
+        
+        // Show data input for modules that need it
+        if (['14', '15', '16', '20'].includes(selectedModule)) {
+          dataInputGroup.style.display = 'block';
+        } else {
+          dataInputGroup.style.display = 'none';
+        }
+        
+        // Update active state for quick module buttons
+        updateQuickModuleButtons(selectedModule);
+      });
+
+      // Update module preview
+      function updateModulePreview(moduleId) {
+        if (moduleId && moduleDetails[moduleId]) {
+          const module = moduleDetails[moduleId];
+          previewTitle.textContent = module.title;
+          previewDescription.textContent = module.description;
+          previewPhase.textContent = module.phase;
+          modulePreview.style.display = 'block';
+        } else {
+          modulePreview.style.display = 'none';
+        }
+      }
+
+      // Quick module buttons
+      quickModuleBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const moduleId = this.getAttribute('data-module');
+          moduleSelect.value = moduleId;
+          updateModulePreview(moduleId);
+          updateQuickModuleButtons(moduleId);
+          
+          // Show data input for modules that need it
+          if (['14', '15', '16', '20'].includes(moduleId)) {
+            dataInputGroup.style.display = 'block';
+          } else {
+            dataInputGroup.style.display = 'none';
+          }
+        });
+      });
+
+      // Update active state for quick module buttons
+      function updateQuickModuleButtons(activeModule) {
+        quickModuleBtns.forEach(btn => {
+          if (btn.getAttribute('data-module') === activeModule) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
+      // Generate prompt
+      generateBtn.addEventListener('click', function() {
+        const module = moduleSelect.value;
+        const niche = nicheInput.value.trim();
+        const platform = platformInput.value.trim();
+        const goal = goalInput.value.trim();
+        const topic = topicInput.value.trim();
+        const data = dataInput.value.trim();
+
+        // Validate inputs
+        if (!module) {
+          showMessage('Please select a module', 'error');
+          return;
+        }
+
+        if (!niche && module !== '14' && module !== '15' && module !== '16' && module !== '20') {
+          showMessage('Please enter a niche', 'error');
+          return;
+        }
+
+        // Show loading state
+        spinner.style.display = 'block';
+        generateBtn.disabled = true;
+
+        // Simulate API call with timeout
+        setTimeout(() => {
+          const prompt = generatePrompt(module, niche, platform, goal, topic, data);
+          displayPrompt(prompt);
+          
+          // Hide loading state
+          spinner.style.display = 'none';
+          generateBtn.disabled = false;
+        }, 800);
+      });
+
+      // Copy to clipboard
+      copyBtn.addEventListener('click', function() {
+        const promptText = outputContent.textContent;
+        if (promptText && !outputContent.querySelector('.empty-output')) {
+          navigator.clipboard.writeText(promptText)
+            .then(() => {
+              showMessage('Prompt copied to clipboard!');
+              copyBtn.classList.add('pulse');
+              setTimeout(() => {
+                copyBtn.classList.remove('pulse');
+              }, 1000);
+            })
+            .catch(err => {
+              console.error('Failed to copy: ', err);
+              showMessage('Failed to copy prompt', 'error');
+            });
+        }
+      });
+
+      // Generate prompt based on module
+      function generatePrompt(module, niche, platform, goal, topic, data) {
+        const baseInstruction = "No explanations, no introductions, no additional text. Always give your top 3 recommendations where necessary.";
+        
+        switch(module) {
+          case '1':
+            return `Act as a social media strategist.
+I want to create viral content in the ${niche} niche.
+Help me define:
+- My ideal audience (age, interests, struggles)
+- The top 5 emotions I should trigger (curiosity, shock, humor, etc.)
+- The main 3 content angles that could go viral in this niche.
+
+${baseInstruction}`;
+
+          case '2':
+            return `Act as a content research expert.
+Analyze the top 5 viral creators in the ${niche} niche on ${platform}.
+Identify:
+- Their top viral post topics
+- Common hooks or headlines they use
+- What emotion or reaction drives engagement
+
+${baseInstruction}`;
+
+          case '3':
+            return `Act as a content planner.
+I want to create posts that ${goal}.
+Give me 5 content directions to achieve that goal.
+
+${baseInstruction}`;
+
+          case '4':
+            return `Act as a viral copywriter.
+Give me 15 viral hooks for ${niche} content that will grab attention within 3 seconds.
+Each hook should be emotional, bold, or curiosity-driven.
+
+${baseInstruction}`;
+
+          case '5':
+            return `Act as a storyteller.
+Generate 5 story-based post ideas around ${topic}.
+Each should have:
+- A relatable problem
+- A transformation moment
+- A powerful takeaway or CTA
+
+${baseInstruction}`;
+
+          case '6':
+            return `Act as a trend researcher.
+What current or seasonal trends on ${platform} can I align with my niche ${niche}?
+Suggest 5 trending formats, hashtags, or challenges I can adapt.
+
+${baseInstruction}`;
+
+          case '7':
+            return `Act as a viral caption writer.
+Write 3 viral captions for a post about ${topic} that trigger curiosity, emotion, or humor.
+Include:
+- Hook (first line)
+- Story/Message
+- CTA (like, comment, share, save)
+
+${baseInstruction}`;
+
+          case '8':
+            return `Act as a viral short-form video scriptwriter.
+Write a 30-second video script for ${topic}.
+Structure:
+1. Hook (first 3 seconds)
+2. Build-up / Story
+3. Transformation / Value
+4. Call to action
+Use conversational tone and energy.
+
+${baseInstruction}`;
+
+          case '9':
+            return `Act as a viral content creator.
+Write a 10-slide carousel (or thread) about ${topic}.
+Each slide should have:
+- Strong headline or curiosity phrase
+- Short, readable text
+- Emotional or practical takeaway
+End with a CTA to follow or comment.
+
+${baseInstruction}`;
+
+          case '10':
+            return `Act as a meme strategist.
+Generate 5 meme or relatable post ideas about ${topic} that use humor or irony.
+Format: [Situation] → [Funny twist or truth bomb].
+
+${baseInstruction}`;
+
+          case '11':
+            return `Act as a platform-specific strategist.
+Rewrite my post for ${platform}.
+Optimize tone, format, hashtags, and length for maximum reach and engagement.
+
+${baseInstruction}`;
+
+          case '12':
+            return `Act as a social media analytics expert.
+For ${platform} and ${niche}, suggest:
+- 15 high-performing hashtags (mix of small + medium + big)
+- 3 best posting times
+- 3 engagement-boosting CTA examples
+
+${baseInstruction}`;
+
+          case '13':
+            return `Act as a viral engagement strategist.
+Write 5 "comment-bait" questions or prompts I can include in my posts about ${topic} to increase discussion.
+
+${baseInstruction}`;
+
+          case '14':
+            return `Act as a content repurposing expert.
+Turn this post "${data}" into:
+- 1 tweet
+- 1 Instagram caption
+- 1 TikTok script
+- 1 YouTube Shorts idea
+Make each fit the platform's best style.
+
+${baseInstruction}`;
+
+          case '15':
+            return `Act as a social media analyst.
+Here are the stats of my last 5 posts: "${data}".
+Analyze and tell me:
+- Which post type worked best and why
+- What I should do more of
+- What to avoid next time
+
+${baseInstruction}`;
+
+          case '16':
+            return `Act as a viral content scientist.
+Based on my last 10 posts, what repeating patterns can you identify in the ones that performed best?
+Give me 5 strategic insights to build my next viral post.
+
+${baseInstruction}`;
+
+          case '17':
+            return `Act as a content planner.
+Create a 30-day content calendar for ${niche}.
+Include:
+- Content type (video, carousel, quote, story)
+- Topic
+- Hook idea
+- CTA
+
+${baseInstruction}`;
+
+          case '18':
+            return `Act as a content strategist.
+Create 20 evergreen post ideas for ${niche} that will stay relevant all year long.
+
+${baseInstruction}`;
+
+          case '19':
+            return `Act as a thought-leadership coach.
+Write 10 post ideas that position me as an expert in ${niche} while still being engaging and human.
+
+${baseInstruction}`;
+
+          case '20':
+            return `Act as a social media perfectionist.
+Review this post "${data}" and suggest:
+- A stronger hook
+- More emotional trigger words
+- Better CTA
+- Hashtag optimization
+
+${baseInstruction}`;
+
+          default:
+            return 'Please select a valid module.';
+        }
+      }
+
+      // Display the generated prompt
+      function displayPrompt(prompt) {
+        outputContent.innerHTML = '';
+        outputContent.textContent = prompt;
+      }
+
+      // Show message
+      function showMessage(message, type = 'success') {
+        const messageEl = document.createElement('div');
+        messageEl.className = `success-message ${type === 'error' ? 'error-message' : ''}`;
+        messageEl.textContent = message;
+        
+        if (type === 'error') {
+          messageEl.style.background = '#e63946';
+        }
+        
+        document.body.appendChild(messageEl);
+        
+        setTimeout(() => {
+          document.body.removeChild(messageEl);
+        }, 3000);
+      }
+    });
+  </script>
+</div>
